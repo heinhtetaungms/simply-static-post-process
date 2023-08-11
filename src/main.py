@@ -414,23 +414,39 @@ if __name__ == "__main__":
         params = parse_qs(os.environ.get("INCOMING_HOOK_BODY"))
         helpers.log_to_console("DEBUG", params)
 
-    archive_name = (
-        params["archive_name"][0]
-        if isinstance(params["archive_name"], list)
-        else params["archive_name"]
-    )
+    
+    # Check for required parameters
+    if "archive_name" in params:
+        archive_name = (
+            params["archive_name"][0]
+            if isinstance(params["archive_name"], list)
+            else params["archive_name"]
+        )
+    else:
+        helpers.log_to_console("ERROR", "Parameter 'archive_name' not found.")
+        sys.exit(1)
 
-    callback_home = (
-        params["callback_home"][0]
-        if isinstance(params["callback_home"], list)
-        else params["callback_home"]
-    )
+    if "callback_home" in params:
+        callback_home = (
+            params["callback_home"][0]
+            if isinstance(params["callback_home"], list)
+            else params["callback_home"]
+        )
+    else:
+        helpers.log_to_console("ERROR", "Parameter 'callback_home' not found.")
+        sys.exit(1)
 
-    callback_deploy_url = (
-        params["callback_deploy_url"][0]
-        if isinstance(params["callback_deploy_url"], list)
-        else params["callback_deploy_url"]
-    )
+    if "callback_deploy_url" in params:
+        callback_deploy_url = (
+            params["callback_deploy_url"][0]
+            if isinstance(params["callback_deploy_url"], list)
+            else params["callback_deploy_url"]
+        )
+    else:
+        helpers.log_to_console(
+            "ERROR", "Parameter 'callback_deploy_url' not found."
+        )
+        sys.exit(1)
     
     page_404 = "404-error"
     page_robots = "robots"
